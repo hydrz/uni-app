@@ -43,6 +43,15 @@ const postcssLoader = {
   }
 }
 
+let userPostcssConfigPath = path.resolve(process.env.UNI_CLI_CONTEXT, 'postcss.config.js')
+if (!fs.existsSync(userPostcssConfigPath)) {
+  userPostcssConfigPath = path.resolve(process.env.UNI_INPUT_DIR, 'postcss.config.js')
+}
+
+if (fs.existsSync(userPostcssConfigPath)) {
+  postcssLoader.options = require(userPostcssConfigPath);
+}
+
 // sass 全局变量
 const isSass = fs.existsSync(path.resolve(process.env.UNI_INPUT_DIR, 'uni.sass'))
 const isScss = fs.existsSync(path.resolve(process.env.UNI_INPUT_DIR, 'uni.scss'))
