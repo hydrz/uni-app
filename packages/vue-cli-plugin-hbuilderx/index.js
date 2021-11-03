@@ -24,7 +24,7 @@ module.exports = (api, options) => { // 仅处理 app-plus 相关逻辑
     }
   }
 
-  const plugins = []
+  let plugins = []
 
   const output = {}
   const WebpackAppPlusPlugin = require('./packages/webpack-app-plus-plugin')
