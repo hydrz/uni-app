@@ -101,6 +101,16 @@ const plugins = [
   new WebpackAppPlusNVuePlugin()
 ]
 
+let userVueConfigPath = path.resolve(process.env.UNI_CLI_CONTEXT, 'vue.config.js')
+if (!fs.existsSync(userVueConfigPath)) {
+  userVueConfigPath = path.resolve(process.env.UNI_INPUT_DIR, 'vue.config.js')
+}
+
+if (fs.existsSync(userVueConfigPath)) {
+  userVueConfig = require(userVueConfigPath);
+  userVueConfig.configureWebpack && userVueConfig.configureWebpack.plugins && (plugins = plugins.concat(userVueConfig.configureWebpack.plugins));
+}
+
 if (process.env.NODE_ENV === 'development') {
   plugins.push(require('@dcloudio/uni-cli-shared/lib/source-map').createEvalSourceMapDevToolPlugin())
 }
