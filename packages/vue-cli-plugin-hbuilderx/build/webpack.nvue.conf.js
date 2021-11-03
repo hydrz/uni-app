@@ -74,7 +74,7 @@ if (
   provide.crypto = [require.resolve('@dcloudio/vue-cli-plugin-uni/lib/crypto.js'), 'default']
 }
 
-const plugins = [
+let plugins = [
   new VueLoaderPlugin(),
   new webpack.DefinePlugin({
     'process.env': {
