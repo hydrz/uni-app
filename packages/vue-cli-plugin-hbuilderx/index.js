@@ -31,6 +31,17 @@ module.exports = (api, options) => { // 仅处理 app-plus 相关逻辑
 
   plugins.push(new WebpackAppPlusPlugin())
 
+  let userVueConfigPath = path.resolve(process.env.UNI_CLI_CONTEXT, 'vue.config.js')
+  if (!fs.existsSync(userVueConfigPath)) {
+    userVueConfigPath = path.resolve(process.env.UNI_INPUT_DIR, 'vue.config.js')
+  }
+
+  if (fs.existsSync(userVueConfigPath)) {
+    userVueConfig = require(userVueConfigPath);
+    userVueConfig.chainWebpack && api.chainWebpack(userVueConfig.chainWebpack);
+    userVueConfig.configureWebpack && userVueConfig.configureWebpack.plugins && (plugins = plugins.concat(userVueConfig.configureWebpack.plugins));
+  }
+
   api.configureWebpack(webpackConfig => {
     return {
       output,
